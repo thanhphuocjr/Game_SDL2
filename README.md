@@ -26,7 +26,7 @@ Nhảy qua Deadline, Kiếm A+ và né điểm F
 
 ## Tính năng nổi bật
 - Game lưu lại kỉ lục sau mỗi lần chơi
-- Sử lý va chạm giữa các điểm A+, F
+- Xử lý va chạm giữa các điểm A+, F
 - Dừng chương trình khi đang chơi và quay lại chơi tiếp
 - Nhân vật được load liên lục khi di chuyển
 - Âm thanh sôi động, xử lý âm thanh khi có va chạm
