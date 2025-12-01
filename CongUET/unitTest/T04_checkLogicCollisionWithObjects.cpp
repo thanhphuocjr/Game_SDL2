@@ -126,3 +126,66 @@ void test_deadline_passed() {
     assert(score == 1);
     std::cout << "  ✓ Test 4.7: CheckCharacter_DeadlineCollision() - passed\n";
 }
+
+
+void test_collision_character_at_screen_edge() {
+
+    reset_game_state();
+    Character c;
+    c.set_velocity_x(1000); 
+    c.move();
+    gifts.push_back(Gift(c.Get_posx() - 10, c.Get_posy(), 5));
+    Check_Character_Gift_Collision(c);
+    assert(score == 1); 
+    std::cout << "  ✓ Test 4.8: Character at screen edge collision\n";
+}
+
+void test_empty_gift_list() {
+    reset_game_state();
+    Character c;
+    gifts.clear();
+    Check_Character_Gift_Collision(c);
+    assert(score == 0);
+    assert(gifts.size() == 0);
+    std::cout << "  ✓ Test 4.9: Collision with empty gift list\n";
+}
+
+void test_multiple_gifts_collision() {
+    reset_game_state();
+    Character c;
+    gifts.clear();
+    gifts.push_back(Gift(c.Get_posx(), c.Get_posy(), 5));
+    gifts.push_back(Gift(c.Get_posx() + 10, c.Get_posy() + 10, 5));
+    gifts.push_back(Gift(500, 500, 5));
+    Check_Character_Gift_Collision(c);
+    assert(score == 2); 
+    assert(gifts.size() == 1); 
+    std::cout << "  ✓ Test 4.10: Multiple gifts collision\n";
+}
+
+void test_deadline_zero_velocity() {
+    reset_game_state();
+    Character c;
+    deadlines.push_back(Deadline(c.Get_posx(), c.Get_posy(), 0));
+    deadlines[0].x_Vel = 0;
+    CheckCharacter_DeadlineCollision(c);
+    assert(youlose == true); 
+    std::cout << "  ✓ Test 4.11: Deadline zero velocity collision\n";
+}
+
+void test_deadline_horizontal_alignment() {
+    reset_game_state();
+    Character c;
+    deadlines.push_back(Deadline(c.Get_posx(), c.Get_posy(), 2));
+    CheckCharacter_DeadlineCollision(c);
+    assert(youlose == true);
+    std::cout << "  ✓ Test 4.12: Deadline exact horizontal alignment\n";
+}
+
+void test_failscore_boundary_velocity() {
+    reset_game_state();
+    Character c;
+    Fscores.push_back(FailScore(c.Get_posx() + 1, c.Get_posy() + 1, 5));
+    Check_Character_FailScore_Collision(c);
+    std::cout << "  ✓ Test 4.13: FailScore boundary proximity\n";
+}

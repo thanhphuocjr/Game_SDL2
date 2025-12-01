@@ -81,7 +81,6 @@ void UpdateDeadline() {
     }
 }
 
-// Test Suite 3: Game Objects Tests
 void test_add_gift() {
     gifts.clear();
     AddGift();
@@ -152,4 +151,71 @@ void test_deadline_off_screen() {
     UpdateDeadline();
     assert(deadlines.size() == 0);
     std::cout << "  ✓ Test 3.9: UpdateDeadline() - off screen\n";
+}
+void test_gift_zero_velocity() {
+    gifts.clear();
+    gifts.push_back(Gift(100, 100, 0));
+    UpdateGift();
+    assert(gifts[0].y_position == 100); 
+    std::cout << "  ✓ Test 3.10: Gift with zero velocity\n";
+}
+
+void test_gift_negative_velocity() {
+    gifts.clear();
+    gifts.push_back(Gift(100, 100, -5));
+    UpdateGift();
+    assert(gifts[0].y_position == 95);
+    std::cout << "  ✓ Test 3.11: Gift with negative velocity\n";
+}
+
+void test_failscore_at_screen_bottom_boundary() {
+    Fscores.clear();
+    Fscores.push_back(FailScore(100, SCREEN_HEIGHT, 5));
+    UpdateFailScore();
+    assert(Fscores.size() == 0);
+    std::cout << "  ✓ Test 3.12: FailScore at bottom boundary\n";
+}
+
+void test_failscore_just_before_boundary() {
+    Fscores.clear();
+    Fscores.push_back(FailScore(100, SCREEN_HEIGHT - 6, 5)); 
+    UpdateFailScore();
+    assert(Fscores.size() == 1); 
+    assert(Fscores[0].y_position == SCREEN_HEIGHT - 1);
+    std::cout << "  ✓ Test 3.13: FailScore just before boundary\n";
+}
+
+void test_deadline_at_left_boundary() {
+    deadlines.clear();
+    deadlines.push_back(Deadline(0, SCREEN_HEIGHT - DEADLINE_HEIGHT, 2));
+    UpdateDeadline();
+    assert(deadlines.size() == 0);
+    std::cout << "  ✓ Test 3.14: Deadline at left boundary\n";
+}
+
+void test_deadline_just_before_left_boundary() {
+    deadlines.clear();
+    deadlines.push_back(Deadline(1, SCREEN_HEIGHT - DEADLINE_HEIGHT, 1));
+    UpdateDeadline();
+    assert(deadlines.size() == 1); 
+    assert(deadlines[0].x_position == 0);
+    std::cout << "  ✓ Test 3.15: Deadline just before left boundary\n";
+}
+
+void test_multiple_gifts_mixed() {
+    gifts.clear();
+    gifts.push_back(Gift(100, 100, 5));
+    gifts.push_back(Gift(200, SCREEN_HEIGHT + 10, 5));
+    gifts.push_back(Gift(300, 150, 3));
+    UpdateGift();
+    assert(gifts.size() == 2);
+    std::cout << "  ✓ Test 3.16: Multiple gifts with mixed states\n";
+}
+
+void test_high_velocity_gift() {
+    gifts.clear();
+    gifts.push_back(Gift(100, SCREEN_HEIGHT - 100, 500));
+    UpdateGift();
+    assert(gifts.size() == 0); 
+    std::cout << "  ✓ Test 3.17: Gift with high velocity\n";
 }

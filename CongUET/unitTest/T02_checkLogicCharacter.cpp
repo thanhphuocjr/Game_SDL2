@@ -160,3 +160,69 @@ void test_character_reset() {
     assert(c.Get_velx() == 0);
     std::cout << "  ✓ Test 2.6: Character::reset()\n";
 }
+
+
+
+
+
+void test_character_velocity_negative() {
+    Character c;
+    c.set_velocity_x(-40);
+    int initial_x = c.Get_posx();
+    c.move();
+    assert(c.Get_posx() == initial_x - 40);
+    std::cout << "  ✓ Test 2.7: Character::move() - large negative velocity\n";
+}
+
+void test_character_velocity_zero() {
+    Character c;
+    c.set_velocity_x(0);
+    int initial_x = c.Get_posx();
+    c.move();
+    assert(c.Get_posx() == initial_x);
+    std::cout << "  ✓ Test 2.8: Character::move() - zero velocity\n";
+}
+
+void test_character_jump_false_state() {
+    Character c;
+    assert(c.jump == false);
+    c.set_up_pressed(true);
+    c.move();
+    assert(c.jump == true);
+    std::cout << "  ✓ Test 2.9: Character::jump transition false->true\n";
+}
+
+void test_character_at_screen_boundary_left() {
+    Character c;
+    c.set_velocity_x(-1000); 
+    c.move();
+    assert(c.Get_posx() >= 0);
+    std::cout << "  ✓ Test 2.10: Character at left screen boundary\n";
+}
+
+void test_character_at_screen_boundary_right() {
+
+    Character c;
+    c.set_velocity_x(1000); 
+    c.move();
+    assert(c.Get_posx() + c.GetWidth() <= SCREEN_WIDTH);
+    std::cout << "  ✓ Test 2.11: Character at right screen boundary\n";
+}
+
+void test_character_gravity_accumulation() {
+    Character c;
+    c.set_jump(true);
+    c.set_velocity_y(-10);
+    for(int i = 0; i < 5; i++) {
+        c.move();
+    }
+    assert(c.Get_vely() == -5);
+    std::cout << "  ✓ Test 2.12: Character gravity accumulation\n";
+}
+
+void test_character_position_at_ground() {
+    Character c;
+    assert(c.Get_posy() == SCREEN_HEIGHT - 75);
+    assert(c.jump == false);
+    std::cout << "  ✓ Test 2.13: Character initial position at ground\n";
+}
