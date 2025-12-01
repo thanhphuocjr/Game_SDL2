@@ -1,0 +1,4 @@
+export PATH="/opt/homebrew/bin:$PATH"
+cd /Users/phuocthanh/Desktop/Game_SDL2/CongUET
+g++ -std=c++17 -O2 -Wall -o CongUET main.cpp $(pkg-config --cflags --libs sdl2 SDL2_image SDL2_mixer SDL2_ttf)
+./CongUET
